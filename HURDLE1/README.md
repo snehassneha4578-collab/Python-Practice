@@ -64,11 +64,11 @@ The program controls Reeborg using movement and turning commands to complete the
 
 ## 🖥️ Output Screenshot
 
-![Hurdle 1 Output](output.png)
+![Hurdle 1 Output](outputh.png)
 
 ## 🎥 Program Execution Video
 
-[▶️ Watch Hurdle 1 Video](output.mp4)
+[▶️ Watch Hurdle 1 Video](output2.mp4)
 
 ## 🎯 Concepts Practiced
 

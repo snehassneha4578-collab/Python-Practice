@@ -48,7 +48,7 @@ while not at_goal():
 
 ### Output Video
 
-[▶️ View Hurdle 4 Execution Video](hurdle4.mp4)
+[▶️ View Hurdle 4 Execution Video](hurdle.mp4)
 
 ## Result
 

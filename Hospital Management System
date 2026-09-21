@@ -1,0 +1,111 @@
+print("========================================")
+print("        HOSPITAL MANAGEMENT SYSTEM")
+print("========================================")
+
+patients = []
+
+while True:
+    print("\n========================================")
+    print("              HOSPITAL MENU")
+    print("========================================")
+    print("1. Add Patient")
+    print("2. View Patients")
+    print("3. Search Patient")
+    print("4. Update Patient")
+    print("5. Delete Patient")
+    print("6. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        name = input("Enter patient name: ")
+        age = int(input("Enter patient age: "))
+        disease = input("Enter disease: ")
+        doctor = input("Enter doctor name: ")
+
+        patient = {
+            "name": name,
+            "age": age,
+            "disease": disease,
+            "doctor": doctor
+        }
+
+        patients.append(patient)
+
+        print("\nPatient added successfully.")
+
+    elif choice == 2:
+        print("\n========== PATIENT DETAILS ==========")
+
+        if len(patients) == 0:
+            print("No patient records available.")
+        else:
+            for i, patient in enumerate(patients, start=1):
+                print("\nPatient Number :", i)
+                print("Name           :", patient["name"])
+                print("Age            :", patient["age"])
+                print("Disease        :", patient["disease"])
+                print("Doctor         :", patient["doctor"])
+
+    elif choice == 3:
+        search = input("Enter patient name to search: ")
+        found = False
+
+        for patient in patients:
+            if patient["name"].lower() == search.lower():
+                print("\nPatient Found!")
+                print("Name    :", patient["name"])
+                print("Age     :", patient["age"])
+                print("Disease :", patient["disease"])
+                print("Doctor  :", patient["doctor"])
+
+                found = True
+                break
+
+        if not found:
+            print("Patient not found.")
+
+    elif choice == 4:
+        search = input("Enter patient name to update: ")
+        found = False
+
+        for patient in patients:
+            if patient["name"].lower() == search.lower():
+
+                print("\nEnter new patient details.")
+
+                patient["age"] = int(input("Enter new age: "))
+                patient["disease"] = input("Enter new disease: ")
+                patient["doctor"] = input("Enter new doctor name: ")
+
+                print("Patient information updated successfully.")
+
+                found = True
+                break
+
+        if not found:
+            print("Patient not found.")
+
+    elif choice == 5:
+        search = input("Enter patient name to delete: ")
+        found = False
+
+        for patient in patients:
+            if patient["name"].lower() == search.lower():
+                patients.remove(patient)
+
+                print("Patient record deleted successfully.")
+
+                found = True
+                break
+
+        if not found:
+            print("Patient not found.")
+
+    elif choice == 6:
+        print("\nThank you for using the Hospital Management System.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

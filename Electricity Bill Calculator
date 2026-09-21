@@ -1,0 +1,32 @@
+print("========================================")
+print("       ELECTRICITY BILL CALCULATOR")
+print("========================================")
+
+name = input("Enter customer name: ")
+units = float(input("Enter electricity units consumed: "))
+
+if units <= 100:
+    bill = units * 2
+elif units <= 200:
+    bill = (100 * 2) + ((units - 100) * 3)
+elif units <= 500:
+    bill = (100 * 2) + (100 * 3) + ((units - 200) * 5)
+else:
+    bill = (100 * 2) + (100 * 3) + (300 * 5) + ((units - 500) * 7)
+
+fixed_charge = 50
+total_bill = bill + fixed_charge
+
+print("\n========================================")
+print("          ELECTRICITY BILL")
+print("========================================")
+
+print("Customer Name :", name)
+print("Units Used    :", units)
+print("Energy Charge :", bill)
+print("Fixed Charge  :", fixed_charge)
+print("Total Bill    :", total_bill)
+
+print("========================================")
+print("       THANK YOU FOR PAYING")
+print("========================================")

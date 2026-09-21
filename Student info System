@@ -1,0 +1,28 @@
+print("========================================")
+print("        STUDENT INFORMATION SYSTEM")
+print("========================================")
+
+name = input("Enter your name: ")
+age = int(input("Enter your age: "))
+branch = input("Enter your branch: ")
+college = input("Enter your college name: ")
+city = input("Enter your city: ")
+email = input("Enter your email: ")
+
+print("\n========================================")
+print("          STUDENT PROFILE")
+print("========================================")
+
+print("Name       :", name)
+print("Age        :", age)
+print("Branch     :", branch)
+print("College    :", college)
+print("City       :", city)
+print("Email      :", email)
+
+print("========================================")
+print("Hello", name + "!")
+print("Welcome to Python Programming.")
+print("You are studying", branch, "at", college + ".")
+print("Keep learning and improving your programming skills.")
+print("========================================")

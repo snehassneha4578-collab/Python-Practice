@@ -1,0 +1,41 @@
+print("========================================")
+print("        EMPLOYEE SALARY CALCULATOR")
+print("========================================")
+
+name = input("Enter employee name: ")
+employee_id = input("Enter employee ID: ")
+basic_salary = float(input("Enter basic salary: "))
+
+hra = basic_salary * 0.20
+da = basic_salary * 0.10
+ta = basic_salary * 0.05
+
+gross_salary = basic_salary + hra + da + ta
+
+pf = basic_salary * 0.12
+tax = gross_salary * 0.05
+
+total_deduction = pf + tax
+net_salary = gross_salary - total_deduction
+
+print("\n========================================")
+print("          EMPLOYEE SALARY SLIP")
+print("========================================")
+
+print("Employee Name :", name)
+print("Employee ID   :", employee_id)
+print("Basic Salary  :", basic_salary)
+print("HRA           :", hra)
+print("DA            :", da)
+print("TA            :", ta)
+print("----------------------------------------")
+print("Gross Salary  :", gross_salary)
+print("PF Deduction  :", pf)
+print("Tax Deduction :", tax)
+print("Total Deduct. :", total_deduction)
+print("----------------------------------------")
+print("Net Salary    :", net_salary)
+
+print("========================================")
+print("       SALARY CALCULATION COMPLETE")
+print("========================================")

@@ -1,0 +1,62 @@
+print("========================================")
+print("       BANK ACCOUNT MANAGEMENT SYSTEM")
+print("========================================")
+
+name = input("Enter account holder name: ")
+account_no = input("Enter account number: ")
+balance = float(input("Enter initial balance: "))
+
+while True:
+    print("\n========================================")
+    print("              BANK MENU")
+    print("========================================")
+    print("1. Check Balance")
+    print("2. Deposit Money")
+    print("3. Withdraw Money")
+    print("4. Account Details")
+    print("5. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        print("\nCurrent Balance:", balance)
+
+    elif choice == 2:
+        amount = float(input("Enter amount to deposit: "))
+
+        if amount > 0:
+            balance = balance + amount
+            print("Amount deposited successfully.")
+            print("Updated Balance:", balance)
+        else:
+            print("Invalid deposit amount.")
+
+    elif choice == 3:
+        amount = float(input("Enter amount to withdraw: "))
+
+        if amount <= 0:
+            print("Invalid withdrawal amount.")
+        elif amount > balance:
+            print("Insufficient balance.")
+        else:
+            balance = balance - amount
+            print("Amount withdrawn successfully.")
+            print("Remaining Balance:", balance)
+
+    elif choice == 4:
+        print("\n========================================")
+        print("          ACCOUNT DETAILS")
+        print("========================================")
+        print("Account Holder :", name)
+        print("Account Number :", account_no)
+        print("Current Balance:", balance)
+        print("========================================")
+
+    elif choice == 5:
+        print("\nThank you for using our banking system.")
+        print("Have a nice day,", name + "!")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

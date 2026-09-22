@@ -1,0 +1,123 @@
+print("========================================")
+print("        ONLINE SHOPPING CART SYSTEM")
+print("========================================")
+
+cart = []
+
+while True:
+    print("\n========================================")
+    print("             SHOPPING MENU")
+    print("========================================")
+    print("1. Add Product")
+    print("2. View Cart")
+    print("3. Search Product")
+    print("4. Remove Product")
+    print("5. Calculate Total")
+    print("6. Checkout")
+    print("7. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        product = input("Enter product name: ")
+        price = float(input("Enter product price: "))
+        quantity = int(input("Enter quantity: "))
+
+        item = {
+            "product": product,
+            "price": price,
+            "quantity": quantity
+        }
+
+        cart.append(item)
+
+        print("Product added to cart successfully.")
+
+    elif choice == 2:
+        print("\n========== SHOPPING CART ==========")
+
+        if len(cart) == 0:
+            print("Your cart is empty.")
+        else:
+            for i, item in enumerate(cart, start=1):
+                total = item["price"] * item["quantity"]
+
+                print("\nProduct", i)
+                print("Name     :", item["product"])
+                print("Price    :", item["price"])
+                print("Quantity :", item["quantity"])
+                print("Total    :", total)
+
+    elif choice == 3:
+        search = input("Enter product name to search: ")
+        found = False
+
+        for item in cart:
+            if item["product"].lower() == search.lower():
+                print("\nProduct Found!")
+                print("Name     :", item["product"])
+                print("Price    :", item["price"])
+                print("Quantity :", item["quantity"])
+                found = True
+                break
+
+        if not found:
+            print("Product not found in cart.")
+
+    elif choice == 4:
+        product = input("Enter product name to remove: ")
+        found = False
+
+        for item in cart:
+            if item["product"].lower() == product.lower():
+                cart.remove(item)
+                print("Product removed successfully.")
+                found = True
+                break
+
+        if not found:
+            print("Product not found.")
+
+    elif choice == 5:
+        grand_total = 0
+
+        for item in cart:
+            grand_total += item["price"] * item["quantity"]
+
+        print("\nTotal Cart Amount:", grand_total)
+
+    elif choice == 6:
+        if len(cart) == 0:
+            print("Your cart is empty.")
+        else:
+            subtotal = 0
+
+            for item in cart:
+                subtotal += item["price"] * item["quantity"]
+
+            discount = 0
+
+            if subtotal >= 5000:
+                discount = subtotal * 0.10
+            elif subtotal >= 2000:
+                discount = subtotal * 0.05
+
+            final_amount = subtotal - discount
+
+            print("\n========================================")
+            print("             FINAL BILL")
+            print("========================================")
+            print("Subtotal :", subtotal)
+            print("Discount :", discount)
+            print("Total    :", final_amount)
+            print("========================================")
+            print("Order placed successfully!")
+            print("Thank you for shopping with us.")
+
+    elif choice == 7:
+        print("\nThank you for using the Online Shopping Cart System.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

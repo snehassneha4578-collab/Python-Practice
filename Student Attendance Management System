@@ -1,0 +1,106 @@
+print("========================================")
+print("     STUDENT ATTENDANCE MANAGEMENT")
+print("========================================")
+
+students = {}
+
+while True:
+    print("\n========================================")
+    print("              MAIN MENU")
+    print("========================================")
+    print("1. Add Student")
+    print("2. Mark Attendance")
+    print("3. View Attendance")
+    print("4. Calculate Attendance Percentage")
+    print("5. Search Student")
+    print("6. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        roll_no = input("Enter roll number: ")
+        name = input("Enter student name: ")
+
+        students[roll_no] = {
+            "name": name,
+            "present": 0,
+            "total": 0
+        }
+
+        print("Student added successfully.")
+
+    elif choice == 2:
+        roll_no = input("Enter roll number: ")
+
+        if roll_no in students:
+            status = input("Enter attendance (P for Present / A for Absent): ")
+
+            if status.upper() == "P":
+                students[roll_no]["present"] += 1
+                students[roll_no]["total"] += 1
+                print("Attendance marked as Present.")
+
+            elif status.upper() == "A":
+                students[roll_no]["total"] += 1
+                print("Attendance marked as Absent.")
+
+            else:
+                print("Invalid attendance choice.")
+        else:
+            print("Student not found.")
+
+    elif choice == 3:
+        print("\n========== ATTENDANCE DETAILS ==========")
+
+        if len(students) == 0:
+            print("No student records available.")
+        else:
+            for roll_no, student in students.items():
+                print("\nRoll Number :", roll_no)
+                print("Name        :", student["name"])
+                print("Present     :", student["present"])
+                print("Total Days  :", student["total"])
+
+    elif choice == 4:
+        roll_no = input("Enter roll number: ")
+
+        if roll_no in students:
+            total = students[roll_no]["total"]
+            present = students[roll_no]["present"]
+
+            if total > 0:
+                percentage = (present / total) * 100
+                print("\nStudent Name :", students[roll_no]["name"])
+                print("Attendance   :", percentage, "%")
+
+                if percentage >= 75:
+                    print("Status       : Eligible")
+                else:
+                    print("Status       : Shortage of Attendance")
+            else:
+                print("No attendance has been recorded.")
+
+        else:
+            print("Student not found.")
+
+    elif choice == 5:
+        roll_no = input("Enter roll number to search: ")
+
+        if roll_no in students:
+            student = students[roll_no]
+
+            print("\n========== STUDENT DETAILS ==========")
+            print("Roll Number :", roll_no)
+            print("Name        :", student["name"])
+            print("Present     :", student["present"])
+            print("Total Days  :", student["total"])
+        else:
+            print("Student not found.")
+
+    elif choice == 6:
+        print("\nThank you for using the Attendance Management System.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

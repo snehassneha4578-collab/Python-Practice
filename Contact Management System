@@ -1,0 +1,83 @@
+print("========================================")
+print("         CONTACT MANAGEMENT SYSTEM")
+print("========================================")
+
+contacts = {}
+
+while True:
+    print("\n========================================")
+    print("              CONTACT MENU")
+    print("========================================")
+    print("1. Add Contact")
+    print("2. View Contacts")
+    print("3. Search Contact")
+    print("4. Update Contact")
+    print("5. Delete Contact")
+    print("6. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        name = input("Enter contact name: ")
+        phone = input("Enter phone number: ")
+        email = input("Enter email address: ")
+
+        contacts[name] = {
+            "phone": phone,
+            "email": email
+        }
+
+        print("Contact added successfully.")
+
+    elif choice == 2:
+        print("\n========== CONTACT LIST ==========")
+
+        if len(contacts) == 0:
+            print("No contacts available.")
+        else:
+            for name, contact in contacts.items():
+                print("\nName  :", name)
+                print("Phone :", contact["phone"])
+                print("Email :", contact["email"])
+
+    elif choice == 3:
+        name = input("Enter contact name to search: ")
+
+        if name in contacts:
+            print("\nContact Found!")
+            print("Name  :", name)
+            print("Phone :", contacts[name]["phone"])
+            print("Email :", contacts[name]["email"])
+        else:
+            print("Contact not found.")
+
+    elif choice == 4:
+        name = input("Enter contact name to update: ")
+
+        if name in contacts:
+            phone = input("Enter new phone number: ")
+            email = input("Enter new email address: ")
+
+            contacts[name]["phone"] = phone
+            contacts[name]["email"] = email
+
+            print("Contact updated successfully.")
+        else:
+            print("Contact not found.")
+
+    elif choice == 5:
+        name = input("Enter contact name to delete: ")
+
+        if name in contacts:
+            del contacts[name]
+            print("Contact deleted successfully.")
+        else:
+            print("Contact not found.")
+
+    elif choice == 6:
+        print("\nThank you for using the Contact Management System.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

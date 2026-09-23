@@ -1,0 +1,82 @@
+print("========================================")
+print("          ONLINE QUIZ SYSTEM")
+print("========================================")
+
+name = input("Enter your name: ")
+
+questions = [
+    {
+        "question": "1. Which language is used for Python programming?",
+        "options": ["A. Python", "B. HTML", "C. CSS", "D. SQL"],
+        "answer": "A"
+    },
+    {
+        "question": "2. Which keyword is used to define a function in Python?",
+        "options": ["A. function", "B. def", "C. fun", "D. define"],
+        "answer": "B"
+    },
+    {
+        "question": "3. Which symbol is used for comments in Python?",
+        "options": ["A. //", "B. /*", "C. #", "D. --"],
+        "answer": "C"
+    },
+    {
+        "question": "4. Which data type stores True or False?",
+        "options": ["A. int", "B. string", "C. float", "D. bool"],
+        "answer": "D"
+    },
+    {
+        "question": "5. Which function is used to display output?",
+        "options": ["A. input()", "B. print()", "C. display()", "D. output()"],
+        "answer": "B"
+    }
+]
+
+score = 0
+
+print("\n========================================")
+print("              QUIZ START")
+print("========================================")
+
+for q in questions:
+
+    print("\n" + q["question"])
+
+    for option in q["options"]:
+        print(option)
+
+    answer = input("Enter your answer: ")
+
+    if answer.upper() == q["answer"]:
+        print("Correct answer!")
+        score += 1
+    else:
+        print("Wrong answer.")
+        print("Correct answer is:", q["answer"])
+
+total_questions = len(questions)
+percentage = (score / total_questions) * 100
+
+print("\n========================================")
+print("             QUIZ RESULT")
+print("========================================")
+
+print("Student Name :", name)
+print("Total Questions :", total_questions)
+print("Correct Answers :", score)
+print("Wrong Answers   :", total_questions - score)
+print("Score           :", score, "/", total_questions)
+print("Percentage      :", percentage, "%")
+
+if percentage >= 80:
+    print("Grade           : Excellent")
+elif percentage >= 60:
+    print("Grade           : Good")
+elif percentage >= 40:
+    print("Grade           : Average")
+else:
+    print("Grade           : Needs Improvement")
+
+print("========================================")
+print("          QUIZ COMPLETED")
+print("========================================")

@@ -1,0 +1,77 @@
+print("========================================")
+print("       ATM TRANSACTION MANAGEMENT")
+print("========================================")
+
+balance = 10000
+transactions = []
+
+while True:
+    print("\n========================================")
+    print("              ATM MENU")
+    print("========================================")
+    print("1. Check Balance")
+    print("2. Deposit Money")
+    print("3. Withdraw Money")
+    print("4. Transaction History")
+    print("5. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        print("\nCurrent Balance:", balance)
+
+    elif choice == 2:
+        amount = float(input("Enter deposit amount: "))
+
+        if amount > 0:
+            balance += amount
+
+            transactions.append(
+                "Deposited: Rs." + str(amount)
+            )
+
+            print("Amount deposited successfully.")
+            print("Current Balance:", balance)
+        else:
+            print("Invalid amount.")
+
+    elif choice == 3:
+        amount = float(input("Enter withdrawal amount: "))
+
+        if amount <= 0:
+            print("Invalid amount.")
+
+        elif amount > balance:
+            print("Insufficient balance.")
+
+        else:
+            balance -= amount
+
+            transactions.append(
+                "Withdrawn: Rs." + str(amount)
+            )
+
+            print("Amount withdrawn successfully.")
+            print("Current Balance:", balance)
+
+    elif choice == 4:
+        print("\n========== TRANSACTION HISTORY ==========")
+
+        if len(transactions) == 0:
+            print("No transactions available.")
+        else:
+            for i, transaction in enumerate(
+                transactions, start=1
+            ):
+                print(i, ".", transaction)
+
+    elif choice == 5:
+        print("\n========================================")
+        print("       THANK YOU FOR USING ATM")
+        print("========================================")
+        print("Final Balance:", balance)
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

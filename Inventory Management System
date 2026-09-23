@@ -1,0 +1,114 @@
+print("========================================")
+print("        INVENTORY MANAGEMENT SYSTEM")
+print("========================================")
+
+inventory = {}
+
+while True:
+    print("\n========================================")
+    print("             INVENTORY MENU")
+    print("========================================")
+    print("1. Add Product")
+    print("2. View Inventory")
+    print("3. Search Product")
+    print("4. Update Stock")
+    print("5. Sell Product")
+    print("6. Delete Product")
+    print("7. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        product_id = input("Enter product ID: ")
+        name = input("Enter product name: ")
+        price = float(input("Enter product price: "))
+        quantity = int(input("Enter quantity: "))
+
+        inventory[product_id] = {
+            "name": name,
+            "price": price,
+            "quantity": quantity
+        }
+
+        print("Product added successfully.")
+
+    elif choice == 2:
+        print("\n========== INVENTORY ==========")
+
+        if len(inventory) == 0:
+            print("Inventory is empty.")
+        else:
+            for product_id, product in inventory.items():
+                print("\nProduct ID :", product_id)
+                print("Name       :", product["name"])
+                print("Price      :", product["price"])
+                print("Quantity   :", product["quantity"])
+
+    elif choice == 3:
+        product_id = input("Enter product ID to search: ")
+
+        if product_id in inventory:
+            product = inventory[product_id]
+
+            print("\n========== PRODUCT DETAILS ==========")
+            print("Product ID :", product_id)
+            print("Name       :", product["name"])
+            print("Price      :", product["price"])
+            print("Quantity   :", product["quantity"])
+        else:
+            print("Product not found.")
+
+    elif choice == 4:
+        product_id = input("Enter product ID: ")
+
+        if product_id in inventory:
+            quantity = int(input("Enter quantity to add: "))
+
+            if quantity > 0:
+                inventory[product_id]["quantity"] += quantity
+                print("Stock updated successfully.")
+            else:
+                print("Invalid quantity.")
+        else:
+            print("Product not found.")
+
+    elif choice == 5:
+        product_id = input("Enter product ID: ")
+
+        if product_id in inventory:
+            quantity = int(input("Enter quantity to sell: "))
+
+            if quantity <= 0:
+                print("Invalid quantity.")
+            elif quantity > inventory[product_id]["quantity"]:
+                print("Insufficient stock.")
+            else:
+                inventory[product_id]["quantity"] -= quantity
+
+                amount = (
+                    quantity *
+                    inventory[product_id]["price"]
+                )
+
+                print("Product sold successfully.")
+                print("Total Amount:", amount)
+
+        else:
+            print("Product not found.")
+
+    elif choice == 6:
+        product_id = input("Enter product ID to delete: ")
+
+        if product_id in inventory:
+            del inventory[product_id]
+            print("Product deleted successfully.")
+        else:
+            print("Product not found.")
+
+    elif choice == 7:
+        print("\nThank you for using the Inventory Management System.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

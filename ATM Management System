@@ -1,0 +1,86 @@
+print("========================================")
+print("           ATM MANAGEMENT SYSTEM")
+print("========================================")
+
+account_name = input("Enter account holder name: ")
+account_number = input("Enter account number: ")
+pin = input("Set your 4-digit PIN: ")
+
+balance = 10000
+
+while True:
+    print("\n========================================")
+    print("              ATM MENU")
+    print("========================================")
+    print("1. Check Balance")
+    print("2. Deposit Money")
+    print("3. Withdraw Money")
+    print("4. Account Details")
+    print("5. Change PIN")
+    print("6. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        print("\nCurrent Balance:", balance)
+
+    elif choice == 2:
+        amount = float(input("Enter deposit amount: "))
+
+        if amount > 0:
+            balance = balance + amount
+            print("Amount deposited successfully.")
+            print("Updated Balance:", balance)
+        else:
+            print("Invalid amount.")
+
+    elif choice == 3:
+        entered_pin = input("Enter your PIN: ")
+
+        if entered_pin == pin:
+            amount = float(input("Enter withdrawal amount: "))
+
+            if amount <= 0:
+                print("Invalid amount.")
+            elif amount > balance:
+                print("Insufficient balance.")
+            else:
+                balance = balance - amount
+                print("Please collect your cash.")
+                print("Remaining Balance:", balance)
+        else:
+            print("Incorrect PIN.")
+
+    elif choice == 4:
+        entered_pin = input("Enter your PIN: ")
+
+        if entered_pin == pin:
+            print("\n========== ACCOUNT DETAILS ==========")
+            print("Account Holder :", account_name)
+            print("Account Number :", account_number)
+            print("Balance        :", balance)
+        else:
+            print("Incorrect PIN.")
+
+    elif choice == 5:
+        old_pin = input("Enter old PIN: ")
+
+        if old_pin == pin:
+            new_pin = input("Enter new 4-digit PIN: ")
+
+            if len(new_pin) == 4 and new_pin.isdigit():
+                pin = new_pin
+                print("PIN changed successfully.")
+            else:
+                print("PIN must contain exactly 4 digits.")
+        else:
+            print("Incorrect old PIN.")
+
+    elif choice == 6:
+        print("\nThank you for using the ATM.")
+        print("Have a nice day,", account_name + "!")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

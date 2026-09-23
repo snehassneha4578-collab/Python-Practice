@@ -1,0 +1,121 @@
+print("========================================")
+print("        MOVIE TICKET BOOKING SYSTEM")
+print("========================================")
+
+movies = {
+    1: {"name": "Avengers", "price": 200, "seats": 50},
+    2: {"name": "Inception", "price": 180, "seats": 40},
+    3: {"name": "Interstellar", "price": 220, "seats": 30}
+}
+
+bookings = []
+
+while True:
+    print("\n========================================")
+    print("              MOVIE MENU")
+    print("========================================")
+    print("1. View Movies")
+    print("2. Book Tickets")
+    print("3. View Bookings")
+    print("4. Cancel Booking")
+    print("5. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        print("\n========== AVAILABLE MOVIES ==========")
+
+        for movie_id, movie in movies.items():
+            print("\nMovie ID :", movie_id)
+            print("Movie    :", movie["name"])
+            print("Price    :", movie["price"])
+            print("Seats    :", movie["seats"])
+
+    elif choice == 2:
+        movie_id = int(input("Enter movie ID: "))
+
+        if movie_id in movies:
+            movie = movies[movie_id]
+
+            print("\nMovie:", movie["name"])
+            print("Ticket Price:", movie["price"])
+            print("Available Seats:", movie["seats"])
+
+            tickets = int(input("Enter number of tickets: "))
+
+            if tickets <= 0:
+                print("Invalid number of tickets.")
+
+            elif tickets > movie["seats"]:
+                print("Not enough seats available.")
+
+            else:
+                name = input("Enter customer name: ")
+                phone = input("Enter phone number: ")
+
+                total = tickets * movie["price"]
+
+                booking = {
+                    "name": name,
+                    "phone": phone,
+                    "movie": movie["name"],
+                    "tickets": tickets,
+                    "total": total
+                }
+
+                bookings.append(booking)
+
+                movie["seats"] -= tickets
+
+                print("\n========== BOOKING CONFIRMED ==========")
+                print("Customer :", name)
+                print("Movie    :", movie["name"])
+                print("Tickets  :", tickets)
+                print("Total    :", total)
+                print("Booking successful!")
+
+        else:
+            print("Movie not found.")
+
+    elif choice == 3:
+        print("\n========== BOOKING DETAILS ==========")
+
+        if len(bookings) == 0:
+            print("No bookings available.")
+        else:
+            for i, booking in enumerate(bookings, start=1):
+                print("\nBooking", i)
+                print("Customer :", booking["name"])
+                print("Phone    :", booking["phone"])
+                print("Movie    :", booking["movie"])
+                print("Tickets  :", booking["tickets"])
+                print("Total    :", booking["total"])
+
+    elif choice == 4:
+        if len(bookings) == 0:
+            print("No bookings available.")
+        else:
+            number = int(input("Enter booking number to cancel: "))
+
+            if 1 <= number <= len(bookings):
+                booking = bookings.pop(number - 1)
+
+                for movie in movies.values():
+                    if movie["name"] == booking["movie"]:
+                        movie["seats"] += booking["tickets"]
+                        break
+
+                print("Booking cancelled successfully.")
+                print("Refund Amount:", booking["total"])
+
+            else:
+                print("Invalid booking number.")
+
+    elif choice == 5:
+        print("\nThank you for using the Movie Ticket Booking System.")
+        print("Enjoy your movie!")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

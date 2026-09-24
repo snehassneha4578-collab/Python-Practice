@@ -1,0 +1,160 @@
+print("========================================")
+print("          TRAIN RESERVATION SYSTEM")
+print("========================================")
+
+trains = {
+    101: {
+        "name": "Bangalore Express",
+        "from": "Davanagere",
+        "to": "Bangalore",
+        "fare": 350,
+        "seats": 50
+    },
+    102: {
+        "name": "Mysore Express",
+        "from": "Davanagere",
+        "to": "Mysore",
+        "fare": 400,
+        "seats": 40
+    },
+    103: {
+        "name": "Chennai Express",
+        "from": "Davanagere",
+        "to": "Chennai",
+        "fare": 650,
+        "seats": 30
+    }
+}
+
+bookings = []
+
+while True:
+    print("\n========================================")
+    print("             TRAIN MENU")
+    print("========================================")
+    print("1. View Trains")
+    print("2. Book Ticket")
+    print("3. View Bookings")
+    print("4. Cancel Ticket")
+    print("5. Search Train")
+    print("6. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        print("\n========== AVAILABLE TRAINS ==========")
+
+        for train_no, train in trains.items():
+            print("\nTrain Number :", train_no)
+            print("Train Name   :", train["name"])
+            print("From         :", train["from"])
+            print("To           :", train["to"])
+            print("Fare         :", train["fare"])
+            print("Available    :", train["seats"])
+
+    elif choice == 2:
+        train_no = int(input("Enter train number: "))
+
+        if train_no in trains:
+            train = trains[train_no]
+
+            print("\nTrain:", train["name"])
+            print("Available Seats:", train["seats"])
+            print("Fare per Ticket:", train["fare"])
+
+            passengers = int(input("Enter number of passengers: "))
+
+            if passengers <= 0:
+                print("Invalid number of passengers.")
+
+            elif passengers > train["seats"]:
+                print("Not enough seats available.")
+
+            else:
+                name = input("Enter passenger name: ")
+                age = int(input("Enter passenger age: "))
+                phone = input("Enter phone number: ")
+
+                total = passengers * train["fare"]
+
+                booking = {
+                    "name": name,
+                    "age": age,
+                    "phone": phone,
+                    "train": train["name"],
+                    "train_no": train_no,
+                    "passengers": passengers,
+                    "total": total
+                }
+
+                bookings.append(booking)
+
+                train["seats"] -= passengers
+
+                print("\n========== TICKET BOOKED ==========")
+                print("Passenger :", name)
+                print("Train     :", train["name"])
+                print("Passengers:", passengers)
+                print("Total Fare:", total)
+                print("Booking successful!")
+
+        else:
+            print("Train not found.")
+
+    elif choice == 3:
+        print("\n========== BOOKING DETAILS ==========")
+
+        if len(bookings) == 0:
+            print("No bookings available.")
+        else:
+            for i, booking in enumerate(bookings, start=1):
+                print("\nBooking Number :", i)
+                print("Passenger      :", booking["name"])
+                print("Age            :", booking["age"])
+                print("Phone          :", booking["phone"])
+                print("Train          :", booking["train"])
+                print("Passengers     :", booking["passengers"])
+                print("Total Fare     :", booking["total"])
+
+    elif choice == 4:
+        if len(bookings) == 0:
+            print("No bookings available.")
+        else:
+            number = int(input("Enter booking number to cancel: "))
+
+            if 1 <= number <= len(bookings):
+                booking = bookings.pop(number - 1)
+
+                train_no = booking["train_no"]
+                trains[train_no]["seats"] += booking["passengers"]
+
+                print("Ticket cancelled successfully.")
+                print("Refund Amount:", booking["total"])
+
+            else:
+                print("Invalid booking number.")
+
+    elif choice == 5:
+        train_no = int(input("Enter train number to search: "))
+
+        if train_no in trains:
+            train = trains[train_no]
+
+            print("\n========== TRAIN DETAILS ==========")
+            print("Train Number :", train_no)
+            print("Train Name   :", train["name"])
+            print("From         :", train["from"])
+            print("To           :", train["to"])
+            print("Fare         :", train["fare"])
+            print("Seats        :", train["seats"])
+        else:
+            print("Train not found.")
+
+    elif choice == 6:
+        print("\nThank you for using the Train Reservation System.")
+        print("Have a safe journey!")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

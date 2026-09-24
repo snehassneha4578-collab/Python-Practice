@@ -1,0 +1,113 @@
+print("========================================")
+print("         EMPLOYEE MANAGEMENT SYSTEM")
+print("========================================")
+
+employees = {}
+
+while True:
+    print("\n========================================")
+    print("             EMPLOYEE MENU")
+    print("========================================")
+    print("1. Add Employee")
+    print("2. View Employees")
+    print("3. Search Employee")
+    print("4. Update Employee")
+    print("5. Delete Employee")
+    print("6. Calculate Salary")
+    print("7. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        emp_id = input("Enter employee ID: ")
+        name = input("Enter employee name: ")
+        department = input("Enter department: ")
+        salary = float(input("Enter basic salary: "))
+
+        employees[emp_id] = {
+            "name": name,
+            "department": department,
+            "salary": salary
+        }
+
+        print("Employee added successfully.")
+
+    elif choice == 2:
+        print("\n========== EMPLOYEE DETAILS ==========")
+
+        if len(employees) == 0:
+            print("No employee records available.")
+        else:
+            for emp_id, employee in employees.items():
+                print("\nEmployee ID :", emp_id)
+                print("Name        :", employee["name"])
+                print("Department  :", employee["department"])
+                print("Salary      :", employee["salary"])
+
+    elif choice == 3:
+        emp_id = input("Enter employee ID to search: ")
+
+        if emp_id in employees:
+            employee = employees[emp_id]
+
+            print("\n========== EMPLOYEE FOUND ==========")
+            print("Employee ID :", emp_id)
+            print("Name        :", employee["name"])
+            print("Department  :", employee["department"])
+            print("Salary      :", employee["salary"])
+        else:
+            print("Employee not found.")
+
+    elif choice == 4:
+        emp_id = input("Enter employee ID to update: ")
+
+        if emp_id in employees:
+            employee = employees[emp_id]
+
+            employee["name"] = input("Enter new name: ")
+            employee["department"] = input("Enter new department: ")
+            employee["salary"] = float(input("Enter new salary: "))
+
+            print("Employee details updated successfully.")
+        else:
+            print("Employee not found.")
+
+    elif choice == 5:
+        emp_id = input("Enter employee ID to delete: ")
+
+        if emp_id in employees:
+            del employees[emp_id]
+            print("Employee deleted successfully.")
+        else:
+            print("Employee not found.")
+
+    elif choice == 6:
+        emp_id = input("Enter employee ID: ")
+
+        if emp_id in employees:
+            salary = employees[emp_id]["salary"]
+
+            hra = salary * 0.20
+            da = salary * 0.10
+            pf = salary * 0.12
+
+            gross_salary = salary + hra + da
+            net_salary = gross_salary - pf
+
+            print("\n========== SALARY DETAILS ==========")
+            print("Basic Salary :", salary)
+            print("HRA          :", hra)
+            print("DA           :", da)
+            print("PF           :", pf)
+            print("Gross Salary :", gross_salary)
+            print("Net Salary   :", net_salary)
+        else:
+            print("Employee not found.")
+
+    elif choice == 7:
+        print("\nThank you for using the Employee Management System.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

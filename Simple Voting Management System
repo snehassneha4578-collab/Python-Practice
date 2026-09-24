@@ -1,0 +1,90 @@
+print("========================================")
+print("        VOTING MANAGEMENT SYSTEM")
+print("========================================")
+
+candidates = {
+    "A": {"name": "Candidate A", "votes": 0},
+    "B": {"name": "Candidate B", "votes": 0},
+    "C": {"name": "Candidate C", "votes": 0}
+}
+
+voters = set()
+
+while True:
+    print("\n========================================")
+    print("              VOTING MENU")
+    print("========================================")
+    print("1. View Candidates")
+    print("2. Cast Vote")
+    print("3. View Results")
+    print("4. Search Voter")
+    print("5. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        print("\n========== CANDIDATES ==========")
+
+        for key, candidate in candidates.items():
+            print(
+                key,
+                "-",
+                candidate["name"]
+            )
+
+    elif choice == 2:
+        voter_id = input("Enter voter ID: ")
+
+        if voter_id in voters:
+            print("This voter has already voted.")
+
+        else:
+            print("\nAvailable Candidates:")
+
+            for key, candidate in candidates.items():
+                print(key, "-", candidate["name"])
+
+            vote = input("Enter candidate choice: ").upper()
+
+            if vote in candidates:
+                candidates[vote]["votes"] += 1
+                voters.add(voter_id)
+
+                print("Vote cast successfully.")
+
+            else:
+                print("Invalid candidate choice.")
+
+    elif choice == 3:
+        print("\n========== VOTING RESULTS ==========")
+
+        total_votes = 0
+
+        for key, candidate in candidates.items():
+            print(
+                candidate["name"],
+                ":",
+                candidate["votes"],
+                "votes"
+            )
+
+            total_votes += candidate["votes"]
+
+        print("------------------------------------")
+        print("Total Votes:", total_votes)
+
+    elif choice == 4:
+        voter_id = input("Enter voter ID to search: ")
+
+        if voter_id in voters:
+            print("Voter has already cast a vote.")
+        else:
+            print("Voter has not cast a vote.")
+
+    elif choice == 5:
+        print("\nThank you for using the Voting Management System.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

@@ -1,0 +1,133 @@
+print("========================================")
+print("        PARKING MANAGEMENT SYSTEM")
+print("========================================")
+
+parking_slots = {}
+
+for slot in range(1, 11):
+    parking_slots[slot] = None
+
+while True:
+    print("\n========================================")
+    print("             PARKING MENU")
+    print("========================================")
+    print("1. View Parking Slots")
+    print("2. Park Vehicle")
+    print("3. Remove Vehicle")
+    print("4. Search Vehicle")
+    print("5. Calculate Parking Fee")
+    print("6. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        print("\n========== PARKING SLOTS ==========")
+
+        for slot, vehicle in parking_slots.items():
+            if vehicle is None:
+                print("Slot", slot, ": Available")
+            else:
+                print(
+                    "Slot", slot,
+                    ": Occupied by",
+                    vehicle["number"]
+                )
+
+    elif choice == 2:
+        slot = int(input("Enter parking slot number (1-10): "))
+
+        if slot in parking_slots:
+
+            if parking_slots[slot] is None:
+                number = input("Enter vehicle number: ")
+                owner = input("Enter owner name: ")
+                vehicle_type = input("Enter vehicle type: ")
+
+                parking_slots[slot] = {
+                    "number": number,
+                    "owner": owner,
+                    "type": vehicle_type
+                }
+
+                print("\nVehicle parked successfully.")
+                print("Parking Slot :", slot)
+                print("Vehicle No.  :", number)
+
+            else:
+                print("This parking slot is already occupied.")
+
+        else:
+            print("Invalid parking slot.")
+
+    elif choice == 3:
+        slot = int(input("Enter parking slot number: "))
+
+        if slot in parking_slots:
+
+            if parking_slots[slot] is not None:
+                vehicle = parking_slots[slot]
+
+                print("\nVehicle Number:", vehicle["number"])
+                print("Owner Name    :", vehicle["owner"])
+
+                hours = float(input("Enter parking hours: "))
+
+                if hours <= 2:
+                    fee = 30
+                elif hours <= 5:
+                    fee = 60
+                else:
+                    fee = 100
+
+                print("Parking Fee:", fee)
+
+                parking_slots[slot] = None
+
+                print("Vehicle removed successfully.")
+
+            else:
+                print("This slot is already empty.")
+
+        else:
+            print("Invalid parking slot.")
+
+    elif choice == 4:
+        number = input("Enter vehicle number to search: ")
+        found = False
+
+        for slot, vehicle in parking_slots.items():
+
+            if vehicle is not None:
+                if vehicle["number"].lower() == number.lower():
+
+                    print("\n========== VEHICLE FOUND ==========")
+                    print("Parking Slot :", slot)
+                    print("Vehicle No.  :", vehicle["number"])
+                    print("Owner        :", vehicle["owner"])
+                    print("Vehicle Type :", vehicle["type"])
+
+                    found = True
+                    break
+
+        if not found:
+            print("Vehicle not found.")
+
+    elif choice == 5:
+        hours = float(input("Enter parking hours: "))
+
+        if hours <= 0:
+            print("Invalid parking hours.")
+        elif hours <= 2:
+            print("Parking Fee: Rs.30")
+        elif hours <= 5:
+            print("Parking Fee: Rs.60")
+        else:
+            print("Parking Fee: Rs.100")
+
+    elif choice == 6:
+        print("\nThank you for using the Parking Management System.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

@@ -1,0 +1,128 @@
+print("========================================")
+print("        PHARMACY MANAGEMENT SYSTEM")
+print("========================================")
+
+medicines = {}
+
+while True:
+    print("\n========================================")
+    print("             PHARMACY MENU")
+    print("========================================")
+    print("1. Add Medicine")
+    print("2. View Medicines")
+    print("3. Search Medicine")
+    print("4. Update Stock")
+    print("5. Sell Medicine")
+    print("6. Delete Medicine")
+    print("7. Exit")
+    print("========================================")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        medicine_id = input("Enter medicine ID: ")
+
+        if medicine_id in medicines:
+            print("Medicine already exists.")
+        else:
+            name = input("Enter medicine name: ")
+            price = float(input("Enter price: "))
+            quantity = int(input("Enter quantity: "))
+
+            medicines[medicine_id] = {
+                "name": name,
+                "price": price,
+                "quantity": quantity
+            }
+
+            print("\nMedicine added successfully.")
+
+    elif choice == 2:
+        print("\n========== MEDICINE LIST ==========")
+
+        if len(medicines) == 0:
+            print("No medicines available.")
+        else:
+            for medicine_id, medicine in medicines.items():
+                print("\nMedicine ID :", medicine_id)
+                print("Name        :", medicine["name"])
+                print("Price       :", medicine["price"])
+                print("Quantity    :", medicine["quantity"])
+
+    elif choice == 3:
+        medicine_id = input("Enter medicine ID to search: ")
+
+        if medicine_id in medicines:
+            medicine = medicines[medicine_id]
+
+            print("\n========== MEDICINE FOUND ==========")
+            print("Medicine ID :", medicine_id)
+            print("Name        :", medicine["name"])
+            print("Price       :", medicine["price"])
+            print("Quantity    :", medicine["quantity"])
+        else:
+            print("Medicine not found.")
+
+    elif choice == 4:
+        medicine_id = input("Enter medicine ID: ")
+
+        if medicine_id in medicines:
+            quantity = int(input("Enter quantity to add: "))
+
+            medicines[medicine_id]["quantity"] += quantity
+
+            print("Stock updated successfully.")
+            print("Current Stock:",
+                  medicines[medicine_id]["quantity"])
+        else:
+            print("Medicine not found.")
+
+    elif choice == 5:
+        medicine_id = input("Enter medicine ID: ")
+
+        if medicine_id in medicines:
+            medicine = medicines[medicine_id]
+
+            print("\nMedicine Name:", medicine["name"])
+            print("Price:", medicine["price"])
+            print("Available Stock:", medicine["quantity"])
+
+            quantity = int(input("Enter quantity to sell: "))
+
+            if quantity <= 0:
+                print("Invalid quantity.")
+
+            elif quantity > medicine["quantity"]:
+                print("Insufficient stock.")
+
+            else:
+                total = quantity * medicine["price"]
+
+                medicine["quantity"] -= quantity
+
+                print("\n========== BILL ==========")
+                print("Medicine :", medicine["name"])
+                print("Quantity :", quantity)
+                print("Price    :", medicine["price"])
+                print("Total    :", total)
+                print("==========================")
+                print("Medicine sold successfully.")
+
+        else:
+            print("Medicine not found.")
+
+    elif choice == 6:
+        medicine_id = input("Enter medicine ID to delete: ")
+
+        if medicine_id in medicines:
+            del medicines[medicine_id]
+            print("Medicine deleted successfully.")
+        else:
+            print("Medicine not found.")
+
+    elif choice == 7:
+        print("\nThank you for using the Pharmacy Management System.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")

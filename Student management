@@ -1,0 +1,362 @@
+# ============================================================
+#        SMART STUDENT MANAGEMENT SYSTEM USING PYTHON
+# ============================================================
+
+import json
+import os
+from datetime import datetime
+
+FILE_NAME = "students.json"
+
+
+def load_students():
+    if os.path.exists(FILE_NAME):
+        try:
+            with open(FILE_NAME, "r") as file:
+                return json.load(file)
+        except (json.JSONDecodeError, OSError):
+            return {}
+    return {}
+
+
+def save_students(students):
+    with open(FILE_NAME, "w") as file:
+        json.dump(students, file, indent=4)
+
+
+def calculate_grade(percentage):
+    if percentage >= 90:
+        return "A+"
+    elif percentage >= 80:
+        return "A"
+    elif percentage >= 70:
+        return "B"
+    elif percentage >= 60:
+        return "C"
+    elif percentage >= 50:
+        return "D"
+    else:
+        return "F"
+
+
+def add_student(students):
+    roll = input("Enter roll number: ").strip()
+
+    if not roll:
+        print("Roll number cannot be empty.")
+        return
+
+    if roll in students:
+        print("Student already exists!")
+        return
+
+    name = input("Enter student name: ").strip()
+
+    if not name:
+        print("Name cannot be empty.")
+        return
+
+    try:
+        age = int(input("Enter age: "))
+        if not 1 <= age <= 120:
+            print("Enter a valid age.")
+            return
+
+        subjects = {}
+        count = int(input("Enter number of subjects: "))
+
+        if not 1 <= count <= 20:
+            print("Enter between 1 and 20 subjects.")
+            return
+
+        for i in range(count):
+            subject = input(f"Enter subject {i + 1}: ").strip()
+
+            if not subject or subject in subjects:
+                print("Invalid or duplicate subject.")
+                return
+
+            marks = float(input(f"Enter marks in {subject} (0-100): "))
+
+            if not 0 <= marks <= 100:
+                print("Marks must be between 0 and 100.")
+                return
+
+            subjects[subject] = marks
+
+        total = sum(subjects.values())
+        maximum = len(subjects) * 100
+        percentage = total / len(subjects)
+        grade = calculate_grade(percentage)
+
+        students[roll] = {
+            "name": name,
+            "age": age,
+            "subjects": subjects,
+            "total": total,
+            "maximum": maximum,
+            "percentage": round(percentage, 2),
+            "grade": grade,
+            "date_added": datetime.now().strftime("%Y-%m-%d")
+        }
+
+        save_students(students)
+        print("\nStudent added successfully!")
+
+    except ValueError:
+        print("Please enter valid numeric values.")
+
+
+def display_student(roll, student):
+    print("\n" + "=" * 45)
+    print("             STUDENT REPORT")
+    print("=" * 45)
+    print("Roll Number :", roll)
+    print("Name        :", student["name"])
+    print("Age         :", student["age"])
+    print("-" * 45)
+    print("SUBJECT-WISE MARKS")
+
+    for subject, marks in student["subjects"].items():
+        print(f"{subject:<25} {marks:>8.2f}")
+
+    print("-" * 45)
+    print("Total Marks :", student["total"], "/", student["maximum"])
+    print("Percentage  :", student["percentage"], "%")
+    print("Grade       :", student["grade"])
+    print("Result      :", "PASS" if student["grade"] != "F" else "FAIL")
+    print("=" * 45)
+
+
+def view_all_students(students):
+    if not students:
+        print("No student records available.")
+        return
+
+    print("\n{:<12} {:<20} {:<12} {:<8}".format(
+        "Roll No.", "Name", "Percentage", "Grade"
+    ))
+    print("-" * 55)
+
+    for roll, student in students.items():
+        print("{:<12} {:<20} {:<12} {:<8}".format(
+            roll,
+            student["name"][:19],
+            str(student["percentage"]) + "%",
+            student["grade"]
+        ))
+
+
+def search_student(students):
+    roll = input("Enter roll number to search: ").strip()
+
+    if roll in students:
+        display_student(roll, students[roll])
+    else:
+        print("Student not found.")
+
+
+def update_student(students):
+    roll = input("Enter roll number to update: ").strip()
+
+    if roll not in students:
+        print("Student not found.")
+        return
+
+    student = students[roll]
+    print("1. Update name")
+    print("2. Update age")
+    print("3. Update subject marks")
+
+    choice = input("Choose an option: ")
+
+    try:
+        if choice == "1":
+            name = input("Enter new name: ").strip()
+            if name:
+                student["name"] = name
+
+        elif choice == "2":
+            age = int(input("Enter new age: "))
+            if not 1 <= age <= 120:
+                print("Invalid age.")
+                return
+            student["age"] = age
+
+        elif choice == "3":
+            subject = input("Enter subject name: ").strip()
+
+            if subject not in student["subjects"]:
+                print("Subject not found.")
+                return
+
+            marks = float(input("Enter new marks: "))
+
+            if not 0 <= marks <= 100:
+                print("Marks must be between 0 and 100.")
+                return
+
+            student["subjects"][subject] = marks
+            student["total"] = sum(student["subjects"].values())
+            student["maximum"] = len(student["subjects"]) * 100
+            student["percentage"] = round(
+                student["total"] / len(student["subjects"]), 2
+            )
+            student["grade"] = calculate_grade(student["percentage"])
+
+        else:
+            print("Invalid choice.")
+            return
+
+        save_students(students)
+        print("Student record updated successfully!")
+
+    except ValueError:
+        print("Invalid input.")
+
+
+def delete_student(students):
+    roll = input("Enter roll number to delete: ").strip()
+
+    if roll not in students:
+        print("Student not found.")
+        return
+
+    confirm = input("Are you sure? (yes/no): ").strip().lower()
+
+    if confirm == "yes":
+        del students[roll]
+        save_students(students)
+        print("Student deleted successfully.")
+    else:
+        print("Deletion cancelled.")
+
+
+def sort_students(students):
+    if not students:
+        print("No records available.")
+        return
+
+    sorted_list = sorted(
+        students.items(),
+        key=lambda item: item[1]["percentage"],
+        reverse=True
+    )
+
+    print("\n       STUDENTS RANKED BY PERCENTAGE")
+    print("-" * 45)
+
+    for rank, (roll, student) in enumerate(sorted_list, start=1):
+        print(
+            f"{rank}. {student['name']} | "
+            f"Roll: {roll} | "
+            f"{student['percentage']}% | "
+            f"Grade: {student['grade']}"
+        )
+
+
+def class_statistics(students):
+    if not students:
+        print("No records available.")
+        return
+
+    percentages = [
+        student["percentage"] for student in students.values()
+    ]
+
+    topper_roll, topper = max(
+        students.items(),
+        key=lambda item: item[1]["percentage"]
+    )
+
+    passed = sum(percentage >= 35 for percentage in percentages)
+    failed = len(percentages) - passed
+
+    print("\n       CLASS STATISTICS")
+    print("-" * 40)
+    print("Total Students :", len(students))
+    print("Class Average  :", round(sum(percentages) / len(percentages), 2), "%")
+    print("Highest Score  :", topper["percentage"], "%")
+    print("Class Topper   :", topper["name"])
+    print("Passed         :", passed)
+    print("Failed         :", failed)
+    print("Pass Percentage:", round(passed / len(students) * 100, 2), "%")
+
+
+def export_report(students):
+    if not students:
+        print("No records to export.")
+        return
+
+    filename = "student_report.txt"
+
+    try:
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write("STUDENT MANAGEMENT SYSTEM REPORT\n")
+            file.write("=" * 45 + "\n")
+            file.write("Generated: " + datetime.now().strftime("%Y-%m-%d %H:%M") + "\n\n")
+
+            for roll, student in students.items():
+                file.write(f"Roll Number: {roll}\n")
+                file.write(f"Name: {student['name']}\n")
+                file.write(f"Age: {student['age']}\n")
+
+                for subject, marks in student["subjects"].items():
+                    file.write(f"{subject}: {marks}/100\n")
+
+                file.write(f"Total: {student['total']}/{student['maximum']}\n")
+                file.write(f"Percentage: {student['percentage']}%\n")
+                file.write(f"Grade: {student['grade']}\n")
+                file.write("-" * 45 + "\n")
+
+        print("Report exported to", filename)
+
+    except OSError as error:
+        print("Could not export report:", error)
+
+
+def main():
+    students = load_students()
+
+    while True:
+        print("\n" + "=" * 50)
+        print("       SMART STUDENT MANAGEMENT SYSTEM")
+        print("=" * 50)
+        print("1. Add Student")
+        print("2. View All Students")
+        print("3. Search Student")
+        print("4. Update Student")
+        print("5. Delete Student")
+        print("6. Rank Students")
+        print("7. Class Statistics")
+        print("8. Export Report")
+        print("9. Exit")
+        print("=" * 50)
+
+        choice = input("Enter your choice (1-9): ").strip()
+
+        if choice == "1":
+            add_student(students)
+        elif choice == "2":
+            view_all_students(students)
+        elif choice == "3":
+            search_student(students)
+        elif choice == "4":
+            update_student(students)
+        elif choice == "5":
+            delete_student(students)
+        elif choice == "6":
+            sort_students(students)
+        elif choice == "7":
+            class_statistics(students)
+        elif choice == "8":
+            export_report(students)
+        elif choice == "9":
+            print("Thank you for using the system!")
+            break
+        else:
+            print("Invalid choice. Please select 1-9.")
+
+
+if __name__ == "__main__":
+    main()
